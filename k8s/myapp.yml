@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: keycloak
+  name: keycloak
+  namespace: webservice-contadoria
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - image: registry.trf3.jus.br/webservice-contadoria/keycloak:#TAG
+          imagePullPolicy: Always
+          name: keycloak
+  selector:
+    matchLabels:
+      app: keycloak
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: contakeycloakdoria
+  namespace: webservice-contadoria
+spec:
+  clusterIP: None
+  ports:
+    - name: http
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+  type: ClusterIP
+  selector:
+    app: keycloak
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: keycloak
+  namespace: webservice-contadoria
+spec:
+  rules:
+    - host: #HOST
+      http:
+        paths:
+          - backend:
+              serviceName: keycloak
+              servicePort: 8080
+            path: /
+  tls:
+    - hosts:
+        - #HOST
