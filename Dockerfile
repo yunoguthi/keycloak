@@ -5,7 +5,7 @@ ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
 
 # Copie seus arquivos de certificado e chave privada para a imagem do Docker
-COPY jfsp.crt /etc/x509/https/tls.crt
+COPY jfsp.csr /etc/x509/https/tls.crt
 COPY jfsp.pem /etc/x509/https/tls.key
 
 # Configurar o Keycloak para usar HTTPS
