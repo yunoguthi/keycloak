@@ -1,5 +1,5 @@
 # Use a base image do Keycloak
-FROM yunoguthi/keycloak-prod:latest
+FROM jboss/keycloak:latest
 
 # Copie o arquivo de configuração personalizado para a imagem
 COPY standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone.xml
