@@ -1,5 +1,17 @@
 # Use a base image do Keycloak
-FROM jboss/keycloak:latest
+FROM quay.io/keycloak/keycloak:latest as builder
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
+
+WORKDIR /opt/keycloak
+RUN keytool -genkeypair -storepass password -storetype PKCS12 -keyalg RSA -keysize 2048 -dname "CN=dev.trf3.jus.br" -alias dev.trf3.jus.br -ext "SAN:c=DNS:localhost,IP:127.0.0.1" -keystore conf/dev.trf3.jus.br.keystore
+RUN /opt/keycloak/bin/kc.sh build
+
+ENV KC_HOSTNAME=localhost
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+
+FROM quay.io/keycloak/keycloak:latest
+COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 # Copie o arquivo de configuração personalizado para a imagem
 COPY standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone.xml
