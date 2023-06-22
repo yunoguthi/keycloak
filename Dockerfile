@@ -40,6 +40,8 @@ ENV PROXY_ADDRESS_FORWARDING=true
 ENV KEYCLOAK_ADMIN = admin
 ENV KEYCLOAK_ADMIN_PASSWORD=admin
 
+ENV KEYCLOAK_JAVA_OPTS="-Djavax.net.ssl.trustStore=/etc/x509/https/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit -Xmx2g"
+
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start"]
 
 # Expõe as portas para HTTP e HTTPS
