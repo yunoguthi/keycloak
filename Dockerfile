@@ -1,10 +1,10 @@
-FROM quay.io/keycloak/keycloak:latest as builder
+#FROM quay.io/keycloak/keycloak:latest as builder
 
-RUN /opt/keycloak/bin/kc.sh build
+#RUN /opt/keycloak/bin/kc.sh build
 
-FROM quay.io/keycloak/keycloak:latest
+FROM yunoguthi/keycloak-tls:latest
 
-COPY --from=builder /opt/keycloak/ /opt/keycloak/
+#COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 WORKDIR /opt/keycloak
 
