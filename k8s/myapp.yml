@@ -37,20 +37,20 @@ spec:
   selector:
     app: keycloak
 ---
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: keycloak
-  namespace: webservice-contadoria
-spec:
-  rules:
-    - host: #HOST
-      http:
-        paths:
-          - backend:
-              serviceName: keycloak
-              servicePort: 8080
-            path: /
-  tls:
-    - hosts:
-        - #HOST
+#apiVersion: extensions/v1beta1
+#kind: Ingress
+#metadata:
+#  name: keycloak
+#  namespace: webservice-contadoria
+#spec:
+#  rules:
+#    - host: #HOST
+#      http:
+#        paths:
+#          - backend:
+#              serviceName: keycloak
+#              servicePort: 8080
+#            path: /
+#  tls:
+#    - hosts:
+#        - #HOST
