@@ -7,7 +7,10 @@ create-secret:
   image: bitnami/kubectl
   stage: build
   script:
-    - KUBECONFIG=$KUBECONFIG_DEV kubectl apply -f secret.yml
+    - sed -i "s/#TAG/$CI_COMMIT_TAG/g" k8s/myapp.yml
+    - sed -i "s/#HOST/keycloak-cli.dev.trf3.jus.br/g" k8s/myapp.yml
+    - sed -i "s/#TOKEN/$TOKEN/g" $KUBECONFIG_DEV
+    - KUBECONFIG=$KUBECONFIG_DEV kubectl apply -f secret.yaml
   only:
     - tags
 
