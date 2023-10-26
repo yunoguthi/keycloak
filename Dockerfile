@@ -2,18 +2,21 @@
 
 #RUN /opt/keycloak/bin/kc.sh build
 
-FROM yunoguthi/keycloak-tls:latest
+##FROM yunoguthi/keycloak-tls:latest
+
+# Use uma imagem de base do Keycloak
+FROM quay.io/keycloak/keycloak:16.0.0
 
 #COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
-WORKDIR /opt/keycloak
+##WORKDIR /opt/keycloak
 
 # Copie seus arquivos de certificado e chave privada para a imagem do Docker
-COPY cert.pem /etc/x509/https/tls.crt
-COPY decrypted-key.pem /etc/x509/https/tls.key
+##COPY cert.pem /etc/x509/https/tls.crt
+##COPY decrypted-key.pem /etc/x509/https/tls.key
 
 USER root
-RUN chmod 600 /etc/x509/https/*
+##RUN chmod 600 /etc/x509/https/*
 
 # Configurar o Keycloak para usar HTTPS
 ENV KC_HTTPS_CERTIFICATE_FILE=/etc/x509/https/tls.crt
@@ -31,7 +34,7 @@ ENV KC_HTTPS_PORT=8443
 
 
 # for demonstration purposes only, please make sure to use proper certificates in production instead
-COPY server.keystore conf/
+##COPY server.keystore conf/
 
 # Configure as variáveis de ambiente para a configuração do Keycloak
 ENV KEYCLOAK_USER=teste
@@ -42,8 +45,30 @@ ENV KEYCLOAK_ADMIN_PASSWORD=admin
 
 ENV KEYCLOAK_JAVA_OPTS="-Djavax.net.ssl.trustStore=/etc/x509/https/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit -Xmx2g"
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start"]
+##ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start"]
 
 # Expõe as portas para HTTP e HTTPS
-EXPOSE 8080
-EXPOSE 8443
+##EXPOSE 8080
+##EXPOSE 8443
+
+
+
+
+
+# Copie seu certificado SSL/TLS e chave privada para a imagem (certifique-se de que os arquivos estão presentes)
+# COPY keycloak-tls.crt /etc/ssl/certs/tls.crt
+# COPY keycloak-tls.key /etc/ssl/certs/tls.key
+
+COPY cert.pem /etc/x509/https/tls.crt
+COPY decrypted-key.pem /etc/x509/https/tls.key
+COPY cert.pem /etc/ssl/certs/tls.crt
+COPY decrypted-key.pem /etc/ssl/certs/tls.key
+
+# Defina a senha do keystore para o Keycloak (substitua 'sua-senha' pela senha real)
+ ENV KEYCLOAK_HTTPS_KEYSTORE_PASSWORD=sua-senha
+
+# Exponha as portas HTTP (8080) e HTTPS (8443) do Keycloak
+EXPOSE 8080 8443
+
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start"]
+
