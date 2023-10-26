@@ -1,5 +1,5 @@
 stages:
-  - create-secret
+  #- create-secret
   - build
   - deploy
 
