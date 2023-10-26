@@ -1,6 +1,15 @@
 stages:
+  - create-secret
   - build
   - deploy
+
+create-secret:
+  image: bitnami/kubectl
+  stage: build
+  script:
+    - KUBECONFIG=$KUBECONFIG_DEV kubectl apply -f secret.yml
+  only:
+    - tags
 
 build-image:
   image: docker:19.03.12
