@@ -1,5 +1,7 @@
 # Use a imagem oficial do Keycloak 16
 FROM jboss/keycloak:16.0.0
+
+WORKDIR /opt/keycloak
  
 # Exponha as portas HTTP (8080 por padrão) e HTTPS (8443 por padrão)
 EXPOSE 8080
