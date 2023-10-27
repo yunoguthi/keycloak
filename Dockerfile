@@ -8,3 +8,9 @@ EXPOSE 8443
 # Copie os arquivos de chave e certificado para o diretório apropriado no contêiner
 COPY keycloak.crt /etc/x509/https/tls.crt
 COPY keycloak.key /etc/x509/https/tls.key
+
+ENV KEYCLOAK_USER=teste
+ENV KEYCLOAK_PASSWORD=teste
+ENV PROXY_ADDRESS_FORWARDING=true
+ENV KEYCLOAK_ADMIN = admin
+ENV KEYCLOAK_ADMIN_PASSWORD=admin
