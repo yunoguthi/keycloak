@@ -8,5 +8,3 @@ EXPOSE 8443
 # Copie os arquivos de chave e certificado para o diretório apropriado no contêiner
 COPY keycloak.crt /etc/x509/https/tls.crt
 COPY keycloak.key /etc/x509/https/tls.key
-
-tem menu de contexto
