@@ -1,5 +1,7 @@
-# Use a imagem oficial do Keycloak 16
-FROM jboss/keycloak:16.0.0
+# FROM jboss/keycloak:16.0.0
+
+FROM yunoguthi/keycloak-tls:latest
+
 
 WORKDIR /opt/keycloak
  
