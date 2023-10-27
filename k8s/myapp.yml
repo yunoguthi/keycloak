@@ -36,7 +36,7 @@ spec:
     - name: http
       port: 8080
       protocol: TCP
-      targetPort: 8443
+      targetPort: 8080
   type: ClusterIP
   selector:
     app: keycloak
@@ -54,7 +54,7 @@ spec:
           - backend:
               serviceName: keycloak-ingress
               servicePort: 8443
-            path: /keycloak
+            path: /
   tls:
     - hosts:
         - #HOST
