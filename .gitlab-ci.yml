@@ -1,20 +1,8 @@
 stages:
-  #- create-secret
   - build
   - deploy
 
-#create-secret:
- # image: bitnami/kubectl
- # stage: build
- # script:
- #   - sed -i "s/#TAG/$CI_COMMIT_TAG/g" k8s/myapp.yml
- #   - sed -i "s/#HOST/keycloak-cli.dev.trf3.jus.br/g" k8s/myapp.yml
- #   - sed -i "s/#TOKEN/$TOKEN/g" $KUBECONFIG_DEV
- #   - KUBECONFIG=$KUBECONFIG_DEV kubectl apply -f secret.yaml
- # only:
- #   - tags
-
-build-image:
+build:
   image: docker:19.03.12
   stage: build
   services:
