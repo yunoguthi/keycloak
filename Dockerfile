@@ -1,9 +1,9 @@
-# FROM jboss/keycloak:16.0.0
+FROM jboss/keycloak:16.0.0
 
-FROM yunoguthi/keycloak-tls:latest
+#FROM yunoguthi/keycloak-tls:latest
 
 
-WORKDIR /opt/keycloak
+#WORKDIR /opt/keycloak
  
 # Exponha as portas HTTP (8080 por padrão) e HTTPS (8443 por padrão)
 EXPOSE 8080
@@ -19,6 +19,7 @@ ENV PROXY_ADDRESS_FORWARDING=true
 ENV KEYCLOAK_ADMIN = admin
 ENV KEYCLOAK_ADMIN_PASSWORD=admin
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start"]
+# Adicione um usuário admin
+RUN /opt/jboss/keycloak/bin/add-user-keycloak.sh -r master -u admin -p admin
 
 
