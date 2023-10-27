@@ -11,8 +11,7 @@ build:
     DOCKER_HOST: tcp://localhost:2375
     DOCKER_TLS_CERTDIR: ""
   script:
-    - docker build -t keycloak .
-    - docker images
+    - docker-compose -f docker-compose.yml up -d
     - echo $REGISTRY_PASSWD | docker login -u $REGISTRY_USER --password-stdin registry.trf3.jus.br
     - docker build --pull -t "registry.trf3.jus.br/webservice-contadoria/keycloak:$CI_COMMIT_TAG" .
     - docker push "registry.trf3.jus.br/webservice-contadoria/keycloak:$CI_COMMIT_TAG"
