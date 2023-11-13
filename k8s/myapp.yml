@@ -54,8 +54,8 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: keycloak-service-ingress
-              servicePort: 8443
+              serviceName: keycloak-service
+              servicePort: 8080
             path: /
   tls:
     - hosts:
