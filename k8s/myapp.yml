@@ -27,7 +27,7 @@ metadata:
   name: keycloak-service
   namespace: webservice-contadoria
 spec:
-  clusterIP: 10.100.1.100 # Use um IP interno válido
+  clusterIP: 10.70.30.205
   ports:
     - name: https
       port: 8443
@@ -52,7 +52,7 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: keycloak-service
+              serviceName: keycloak-service-ingress
               servicePort: 8443
             path: /
   tls:
