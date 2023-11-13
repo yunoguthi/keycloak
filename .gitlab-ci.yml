@@ -26,7 +26,7 @@ deploy-dev:
   image: bitnami/kubectl
   stage: deploy
   script:
-    - kubectl delete service keycloak-service -n webservice-contadoria  # Remover o Service antigo
+    #- kubectl delete service keycloak-service -n webservice-contadoria  # Remover o Service antigo
     - sed -i "s/#TAG/$CI_COMMIT_TAG/g" k8s/myapp.yml
     - sed -i "s/#HOST/login.dev.trf3.jus.br/g" k8s/myapp.yml
     - sed -i "s/#TOKEN/$TOKEN/g" $KUBECONFIG_DEV
