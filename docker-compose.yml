@@ -1,0 +1,61 @@
+version: "3.9"
+services:
+  postgres_keycloak:
+    container_name: postgres_keycloak
+    image: postgres:14.7
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5100:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - custom-keycloak
+  keycloak:
+    container_name: custom_keycloak
+    build: .
+    image: custom-keycloak-image
+    restart: unless-stopped
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_DATABASE=keycloak
+      - KC_DB_SCHEMA=keycloak
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=postgres
+      - KC_DB_URL_PORT=5432
+      - KC_DB_URL_HOST=postgres_keycloak
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_HTTP_ENABLED=true
+      - KC_HOSTNAME_STRICT=false
+      - KC_HOSTNAME_STRICT_HTTPS=false
+      - JDBC_PARAMS=sslmode=require
+      - KC_HTTPS_CERTIFICATE_FILE=/etc/x509/https/tls.crt
+      - KC_HTTPS_CERTIFICATE_KEY_FILE=/etc/x509/https/tls.key
+      #- KEYCLOAK_HTTPS_KEYSTORE=/etc/x509/https/keystore.jks
+      #- KEYCLOAK_HTTPS_KEYALIAS=keycloak
+      #- KEYCLOAK_HTTPS_KEYPASSWORD=123456
+      #- KEYCLOAK_HTTPS_PASSWORD=123456
+    volumes:
+      - ./keycloak.crt:/etc/x509/https/tls.crt
+      - ./keycloak.key:/etc/x509/https/tls.key
+      - ./keycloak.jks:/etc/x509/https/keycloak.jks
+    depends_on:
+      - postgres_keycloak
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    networks:
+      - custom-keycloak
+    command:
+      - start
+volumes:
+  postgres:
+    driver: local
+networks:
+  custom-keycloak:
+    name: custom-keycloak
+    driver: bridge
